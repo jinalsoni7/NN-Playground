@@ -15,10 +15,10 @@ This project implements a simple neural network to classify handwritten digits f
 The project consists of **3 main steps**:
 
 ### 1. Load Data
-Users can load the data using:
-- `image_dataset` and `labels_dataset` file paths
-- Option to **automatically split** into training and test sets (80:20)
-- OR manually supply `test_image` and `test_labels` file paths
+Users must provide all of the following file paths:
+- `train_image` and `train_labels`
+- `test_image` and `test_labels`
+There is no automatic train-test split — all data must be prepared in advance by the user.
 
 ### 2. Train Model
 Call the training function by providing:
@@ -28,7 +28,7 @@ Call the training function by providing:
   - **Learning rate**
 
 ### 3. Test Model
-Evaluate the model using `test_image` after training.  
+Evaluate the model using `test_image` after training.
 A plot will be shown of **iterations vs. cost**, helping visualize learning progress.
 
 
@@ -44,5 +44,4 @@ A plot will be shown of **iterations vs. cost**, helping visualize learning prog
 ## Requirements
 
 - Python 3.12.11
-- NumPy
 - Matplotlib
