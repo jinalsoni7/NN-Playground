@@ -8,19 +8,22 @@ from array import array
 from typing import Tuple, List
 
 
-def etl_data(prev_labels: List) -> List:
+def transform_labels(mnist_labels: List) -> List:
     """
-    Current lables data supports multiple classification of digits 0 to 9.
-    This function is written to change labels data to match single classification problem of recognizing single digit 0.
+    MNIST labels are for multiple classification of digits 0 to 9.
+    This function is written to change labels to match binary classification -
+    problem of recognizing single digit 0.
     """
 
-    labels = [1 if digit == 0 else 0 for digit in prev_labels]
+    labels = [1 if digit == 0 else 0 for digit in mnist_labels]
 
     return labels
 
 
 # MNIST Data Loader Function
-def read_images_labels(images_filepath: str, labels_filepath: str) -> Tuple[List, List]:
+def read_images_labels(
+    images_filepath: str, labels_filepath: str
+) -> Tuple[List, List]:
     labels = []
 
     with open(labels_filepath, "rb") as file:
@@ -29,7 +32,7 @@ def read_images_labels(images_filepath: str, labels_filepath: str) -> Tuple[List
             raise ValueError(
                 "Magic number mismatch, expected 2049, got {}".format(magic)
             )
-        multi_labels = array("B", file.read())
+        mnist_labels = array("B", file.read())
 
     with open(images_filepath, "rb") as file:
         magic, size, rows, cols = struct.unpack(">IIII", file.read(16))
@@ -45,9 +48,9 @@ def read_images_labels(images_filepath: str, labels_filepath: str) -> Tuple[List
         images.append([0] * rows * cols)
 
     for i in range(size):
-        img = image_data[i * rows * cols : (i + 1) * rows * cols]
+        img = image_data[i * rows * cols : (i + 1) * rows * cols]  # noqa E203
         images[i][:] = img
 
-    labels = etl_data(prev_labels=list(multi_labels))
+    labels = transform_labels(mnist_labels=list(mnist_labels))
 
     return images, labels

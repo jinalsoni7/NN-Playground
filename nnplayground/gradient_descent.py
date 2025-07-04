@@ -1,16 +1,16 @@
 """
 Gradient Descent for a perceptron
 
-1) we have an input x: List[float] and output y: float
-2) we assign weight(w):List[float] and bias(b): float
-3) calculate z = wx + b : float
-4) calculate a = sigmoid(z) : float
-5) cost function C = 1/2(a - y)^2 : float
+1) we have an input x and output y
+2) we initialize weight(w) and bias(b)
+3) calculate z = wx + b
+4) calculate a = sigmoid(z)
+5) cost function C = (1/2n)(a - y)^2
 6) Gradient descent = partial derivation of C with w and
                         partial derivation of C with b
 
-    ∂C/∂w = a(1-a)(a-y)x : List[float]
-    ∂C/∂b = a(1-a)(a-y) : float
+    ∂C/∂w = a(1-a)(a-y)x
+    ∂C/∂b = a(1-a)(a-y)
 
 -----------------------------------------------------------------------
 ∂c/∂w = ∂c/∂a * ∂a/∂z * ∂z/∂w
@@ -29,8 +29,8 @@ sigmoid(z) = 1 / (1+e^-z)
                 =  (e^-z / ((1 + e^-z)))
 -----------------------------------------------------------------------
 
-7) w' = w - µ . ∂C/∂w : List[float]
-    b' = b - µ . ∂C/∂b : float
+7) w' = w - µ . ∂C/∂w
+    b' = b - µ . ∂C/∂b
 
 """
 
@@ -39,8 +39,8 @@ import random
 import math
 
 
-def define_weights_bias(input_x: List[float]) -> Tuple[List[float], float]:
-    weights = [random.gauss(mu=0.0, sigma=1.0) for i in range(len(input_x))]
+def initialize_weights_bias(num_features: int) -> Tuple[List[float], float]:
+    weights = [random.gauss(mu=0.0, sigma=1.0) for i in range(num_features)]
     bias = random.gauss(mu=0.0, sigma=1.0)
 
     return weights, bias
@@ -64,7 +64,9 @@ def partial_derivatives(
 ) -> Tuple[List[float], float]:
     # ∂C/∂b = a(1-a)(a-y)
     partial_derivation_with_bias = (
-        activation_value * (1 - activation_value) * (activation_value - output_y)
+        activation_value
+        * (1 - activation_value)
+        * (activation_value - output_y)
     )
 
     # ∂C/∂w = a(1-a)(a-y)x
@@ -79,13 +81,3 @@ def quadratic_cost(activation: float, output_y: float) -> float:
     cost = 0.5 * ((activation - output_y) ** 2)
 
     return cost
-
-
-def gradient_descent(
-    input_x: List[List],
-    output_y: List,
-    weights: List[List],
-    bias: List,
-    learning_rate: float,
-) -> Tuple[List[List], List, float]:
-    pass
