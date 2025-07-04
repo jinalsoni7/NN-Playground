@@ -1,6 +1,6 @@
 # This is Neural Network to classify whether the given image is digit 0 or not.
 
-from typing import List
+from typing import List, Tuple
 from statistics import mean
 
 from gradient_descent import (
@@ -58,10 +58,32 @@ def train(
         weights = updated_weights
         bias = updated_bias
 
+    return weights, bias
 
-def predict(x_input: List[List], parameters):
-    pass
+
+def predict(x_input: List[List], parameters: Tuple) -> List:
+    y_prediction = []
+    weights, bias = parameters
+
+    for example in x_input:
+        # calculate z = ∑wx + b and thus calculate a = sigmoid(z)
+        activation_value = activation_sigmoid(
+            weights=weights, bias=bias, input_x=example
+        )
+
+        y_prediction.append(activation_value)
+
+    return y_prediction
 
 
 def accuracy(y_actual: List, y_predicted: List):
-    pass
+    correct_classifications = 0
+    total_classifications = len(y_actual)
+
+    for actual, predicted in zip(y_actual, y_predicted):
+        if actual == predicted:
+            correct_classifications += 1
+
+    accuracy = correct_classifications / total_classifications
+
+    return accuracy

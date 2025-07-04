@@ -13,6 +13,8 @@ Gradient Descent for a perceptron
     ∂C/∂b = a(1-a)(a-y)
 
 -----------------------------------------------------------------------
+PROOF
+
 ∂c/∂w = ∂c/∂a * ∂a/∂z * ∂z/∂w
     = (1-y) * sigmoid`(z) * x
     = (1-y)a(1-a)x
