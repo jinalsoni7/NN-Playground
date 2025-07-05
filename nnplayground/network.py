@@ -3,7 +3,7 @@
 from typing import List, Tuple
 from statistics import mean
 
-from gradient_descent import (
+from .gradient_descent import (
     initialize_weights_bias,
     activation_sigmoid,
     partial_derivatives,
@@ -42,7 +42,7 @@ def train(
             db_list.append(db)
 
         # average dw and db
-        avg_dws = list(*map(mean, zip(*dw_list)))
+        avg_dws = [*map(mean, zip(*dw_list))]
         avg_db = mean(db_list)
 
         # Update weights
@@ -71,7 +71,9 @@ def predict(x_input: List[List], parameters: Tuple) -> List:
             weights=weights, bias=bias, input_x=example
         )
 
-        y_prediction.append(activation_value)
+        prediction = 1 if activation_value >= 0.5 else 0
+
+        y_prediction.append(prediction)
 
     return y_prediction
 

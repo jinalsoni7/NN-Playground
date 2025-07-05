@@ -8,7 +8,7 @@ from array import array
 from typing import Tuple, List
 
 
-def transform_labels(mnist_labels: List) -> List:
+def transform_labels_to_binary(mnist_labels: List) -> List:
     """
     MNIST labels are for multiple classification of digits 0 to 9.
     This function is written to change labels to match binary classification -
@@ -18,6 +18,20 @@ def transform_labels(mnist_labels: List) -> List:
     labels = [1 if digit == 0 else 0 for digit in mnist_labels]
 
     return labels
+
+
+def normalize_pixel_values(mnist_images: List[List]) -> List[List]:
+    """
+    MNIST image pixel values range from 0 to 255.
+    This was resulting large z value,
+    which causes OverflowError in calculating activation.
+    We will apply min-max feature scaling.
+    """
+    for image in range(len(mnist_images)):
+        for pixel_value in range(len(mnist_images[image])):
+            mnist_images[image][pixel_value] /= 255
+
+    return mnist_images
 
 
 # MNIST Data Loader Function
@@ -32,7 +46,7 @@ def read_images_labels(
             raise ValueError(
                 "Magic number mismatch, expected 2049, got {}".format(magic)
             )
-        mnist_labels = array("B", file.read())
+        labels = array("B", file.read())
 
     with open(images_filepath, "rb") as file:
         magic, size, rows, cols = struct.unpack(">IIII", file.read(16))
@@ -51,6 +65,4 @@ def read_images_labels(
         img = image_data[i * rows * cols : (i + 1) * rows * cols]  # noqa E203
         images[i][:] = img
 
-    labels = transform_labels(mnist_labels=list(mnist_labels))
-
-    return images, labels
+    return images, list(labels)
