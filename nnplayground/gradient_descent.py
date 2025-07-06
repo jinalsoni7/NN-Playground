@@ -16,8 +16,8 @@ Gradient Descent for a perceptron
 PROOF
 
 ∂c/∂w = ∂c/∂a * ∂a/∂z * ∂z/∂w
-    = (1-y) * sigmoid`(z) * x
-    = (1-y)a(1-a)x
+    = (a-y) * sigmoid`(z) * x
+    = (a-y)a(1-a)x
 
 sigmoid(z) = 1 / (1+e^-z)
 ∂(sigmoid(z)) = (1+e^-z)^-2 e^-z
@@ -30,7 +30,6 @@ sigmoid(z) = 1 / (1+e^-z)
                 = 1 + e^-z -1 / (1 + e^-z)
                 =  (e^-z / ((1 + e^-z)))
 -----------------------------------------------------------------------
-
 7) w' = w - µ . ∂C/∂w
     b' = b - µ . ∂C/∂b
 
@@ -39,6 +38,21 @@ sigmoid(z) = 1 / (1+e^-z)
 from typing import List, Tuple
 import random
 import math
+import time
+
+
+def timeit(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        execution_time = end_time - start_time
+        print(
+            f"Function '{func.__name__}' executed in {execution_time:.4f} seconds."  # noqa E501
+        )
+        return result
+
+    return wrapper
 
 
 def initialize_weights_bias(num_features: int) -> Tuple[List[float], float]:

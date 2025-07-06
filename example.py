@@ -11,7 +11,7 @@ x_train = mnist_loader.normalize_pixel_values(mnist_images=x_train)
 model_params = network.train(
     x_input=x_train,
     y_output=y_train,
-    number_of_iterations=10000,
+    number_of_iterations=5,
     learning_rate=0.25,
 )
 

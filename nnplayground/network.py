@@ -1,5 +1,6 @@
 # This is Neural Network to classify whether the given image is digit 0 or not.
 
+import numpy as np
 from typing import List, Tuple
 from statistics import mean
 
@@ -42,7 +43,7 @@ def train(
             db_list.append(db)
 
         # average dw and db
-        avg_dws = [*map(mean, zip(*dw_list))]
+        avg_dws = np.mean(dw_list, axis=0).tolist()
         avg_db = mean(db_list)
 
         # Update weights
