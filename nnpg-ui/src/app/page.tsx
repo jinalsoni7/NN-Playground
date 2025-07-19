@@ -9,13 +9,14 @@ import PredictionText from '@/app/components/predictionText';
 
 export default function Home() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageForm, setImageForm] = useState<FormData | null>(null);
   return (
     <main className='grid grid-cols-2 grid-rows-13 gap-25'>
       <Title text="Binary Classification for Handwritten Digits" />
 
       <div className="col-span-1 row-span-7">
         <div className="flex justify-center py-30">
-          <ImageUpload onImageSelect={setImageUrl} />
+          <ImageUpload onImageSelect={setImageUrl} onImageUpload={setImageForm} />
         </div>
       </div>
 
@@ -27,7 +28,7 @@ export default function Home() {
 
       <div className="col-span-1 row-span-4">
         <div className="flex justify-center">
-          <ImagePredict />
+          <ImagePredict imageForm={imageForm}/>
         </div>
       </div>
 
