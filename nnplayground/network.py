@@ -16,7 +16,7 @@ def train(
     y_output: List,
     number_of_iterations: int,
     learning_rate: float,
-):
+) -> Tuple[List[float], float]:
     # initialize weights and bias -- weights will be of size x_input[0] and -
     # bias will be of size 1 since there is only one layer of neurons
     weights, bias = initialize_weights_bias(num_features=len(x_input[0]))

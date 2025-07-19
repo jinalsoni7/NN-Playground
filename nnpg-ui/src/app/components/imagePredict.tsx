@@ -5,7 +5,7 @@ type ImageDisplayProps = {
 export default function ImagePredict({ imageForm }: ImageDisplayProps) {
   const handleClick = async (e: React.MouseEvent) => {
     try {
-      const response = await fetch('http://localhost:8000/upload_image', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_PREDICTION_API_URL}`, {
         method: 'POST',
         body: imageForm, // No need to set Content-Type header; FormData handles it
       });
