@@ -10,6 +10,7 @@ import PredictionText from '@/app/components/predictionText';
 export default function Home() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageForm, setImageForm] = useState<FormData | null>(null);
+  const [predictionText, setPredictionText] = useState<string>("0 or not 0");
   return (
     <main className='grid grid-cols-2 grid-rows-13'>
       <Title text="Binary Classification for Handwritten Digits" />
@@ -28,13 +29,13 @@ export default function Home() {
 
       <div className="col-span-1 row-span-4">
         <div className="flex justify-center">
-          <ImagePredict imageForm={imageForm}/>
+          <ImagePredict imageForm={imageForm} onImagePredict={setPredictionText}/>
         </div>
       </div>
 
       <div className="col-span-1 row-span-4">
         <div className="flex justify-center">
-          <PredictionText />
+          <PredictionText predictionText={predictionText}/>
         </div>
       </div>
 
