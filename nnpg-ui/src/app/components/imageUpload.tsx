@@ -25,7 +25,7 @@ export default function ImageUpload({ onImageSelect, onImageUpload }: ImageUploa
   };
 
   return (
-    <label className="cursor-pointer bg-yellow-300 hover:bg-amber-300 text-black px-9 py-3 rounded-lg shadow">
+    <label className="cursor-pointer bg-yellow-300 hover:bg-orange-300 text-black px-9 py-3 rounded-lg shadow">
       Browse
       <input type="file" accept="image/*" onChange={handleChange} className="hidden" />
     </label>
