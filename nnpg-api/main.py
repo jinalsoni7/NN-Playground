@@ -3,6 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 import io
 import os
+from nnplayground.network import predict
+from typing import List, Tuple
+import pickle
+
 
 app = FastAPI()
 
@@ -21,6 +25,28 @@ if not os.path.exists("raw_images"):
 
 if not os.path.exists("processed_images"):
     os.makedirs("processed_images")
+
+
+def get_params() -> Tuple[List[float], float]:
+    with open(
+        "/Users/jinal/Desktop/NN-Playground/model_params.pickle", "rb"
+    ) as f:
+        parameters = pickle.load(f)
+
+    return parameters
+
+
+def predict_image(image: Image.Image) -> int:
+    # retrieve pixel values of image
+    pixel_data = list(image.getdata())
+
+    # get weights and bias
+    parameters = get_params()
+
+    # predict the image
+    result = predict(x_input=pixel_data, parameters=parameters)
+
+    return result
 
 
 @app.post("/")
@@ -43,4 +69,7 @@ async def process_image(file: UploadFile):
     output_filename = f"processed_images/grayscale_{file.filename}"
     resized_image.save(output_filename, "jpeg")
 
-    return {"image": "processed"}
+    # Run prediction model on image
+    result = predict_image(resized_image)
+
+    return {"prediction": result}
