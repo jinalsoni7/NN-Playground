@@ -4,6 +4,7 @@ type ImageDisplayProps = {
 };
 
 export default function ImagePredict({ imageForm, onImagePredict }: ImageDisplayProps) {
+  const isButtonDisabled = imageForm == null;
   const handleClick = async (e: React.MouseEvent) => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_PREDICTION_API_URL}`, {
@@ -26,7 +27,8 @@ export default function ImagePredict({ imageForm, onImagePredict }: ImageDisplay
 
   return (
     <button
-      className="cursor-pointer bg-lime-300 hover:bg-green-300 text-black px-9 py-3 rounded-lg shadow"
+      className="cursor-pointer bg-fuchsia-300 hover:bg-violet-300 text-black px-9 py-3 rounded-lg shadow disabled:cursor-not-allowed disabled:opacity-50"
+      disabled={isButtonDisabled}
       onClick={handleClick}
     >
       Recognize
